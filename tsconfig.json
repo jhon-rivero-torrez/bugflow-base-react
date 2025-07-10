@@ -2,5 +2,18 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./bugflow-ui-e2e"
+    },
+    {
+      "path": "./bugflow-ui"
+    },
+    {
+      "path": "./bugflow-api-e2e"
+    },
+    {
+      "path": "./bugflow-api"
+    }
+  ]
 }
