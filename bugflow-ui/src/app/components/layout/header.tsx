@@ -25,7 +25,7 @@ const Header = (): JSX.Element => {
   };
 
   const handleLogout = () => {
-    logout();
+    logout();;;
     handleMenuClose();
     window.location.href = '/login'; // or useNavigate
   };
