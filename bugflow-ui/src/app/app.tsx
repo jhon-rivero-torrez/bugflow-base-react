@@ -6,6 +6,7 @@ import LoginPage from '../pages/LoginPage';
 import { JSX } from 'react';
 import ProtectedRoute from './routes/protectedRoute';
 import Layout from './components/layout/layout';
+import ProjectPage from '../pages/projectPage';
 
 const App = (): JSX.Element => {
   return (
@@ -22,6 +23,8 @@ const App = (): JSX.Element => {
             </ProtectedRoute>
           }
         >
+          <Route path="project/:id" element={<ProjectPage />} />
+
           <Route index element={<HomePage />} />
           <Route path="dashboard" element={<DashboardPage />} />
         </Route>
