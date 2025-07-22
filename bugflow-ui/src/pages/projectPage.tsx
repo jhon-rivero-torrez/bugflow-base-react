@@ -1,21 +1,41 @@
-// apps/bugflow-ui/src/pages/ProjectPage.tsx
 import { useParams } from 'react-router-dom';
-import { Container, Typography, Box } from '@mui/material';
-import { JSX } from 'react';
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  Button,
+} from '@mui/material';
+import { useState } from 'react';
+import ProjectBoard from '../app/components/project/projectBoard';
+import IssueFilters from '../app/components/project/issueFileters';
+import IssueModal from '../app/components/project/issueModal';
+import { useProjectIssues } from '../app/hooks/useProjectIssues';
+import { Issue } from '../app/types/issue';
 
-const ProjectPage = (): JSX.Element => {
-  const { id } = useParams<{ id: string }>();
+const ProjectPage = () => {
+  const { projectId = "" } = useParams<{ projectId: string }>();
+  const [openModal, setOpenModal] = useState(false);
 
-  return (
-    <Container sx={{ mt: 6 }}>
-      <Typography variant="h4" gutterBottom>
-        Project Details
-      </Typography>
-      <Box>
-        <Typography variant="body1"><strong>Project ID:</strong> {id}</Typography>
-        <Typography variant="body1"><strong>Owner:</strong> Placeholder Owner</Typography>
+  const { data: issues = [], isLoading } = useProjectIssues(projectId);
+
+  const setFilters = (filtered: Issue[]) => {console.log("test",filtered) }
+   return (
+    <Box sx={{ p: 4 }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Typography variant="h4">Project: {projectId}</Typography>
+        <Button variant="contained" onClick={() => setOpenModal(true)}>Create Issue</Button>
       </Box>
-    </Container>
+
+      <IssueFilters issues={issues} setFiltered={setFilters} />
+
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <ProjectBoard issues={issues} />
+      )}
+
+      <IssueModal open={openModal} onClose={() => setOpenModal(false)} />
+    </Box>
   );
 };
 

@@ -23,7 +23,7 @@ const App = (): JSX.Element => {
             </ProtectedRoute>
           }
         >
-          <Route path="project/:id" element={<ProjectPage />} />
+          <Route path="project/:projectId" element={<ProjectPage />} />
 
           <Route index element={<HomePage />} />
           <Route path="dashboard" element={<DashboardPage />} />
