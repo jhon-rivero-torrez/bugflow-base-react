@@ -1,12 +1,21 @@
 {
   "extends": "../tsconfig.base.json",
+        "strictPropertyInitialization": false,
+
   "compilerOptions": {
+        "experimentalDecorators": true,             // ✅ Enables decorator syntax
+    "emitDecoratorMetadata": true     ,
     "outDir": "dist",
     "types": ["node", "express"],
     "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts","src"],
   "exclude": [
     "out-tsc",
     "dist",

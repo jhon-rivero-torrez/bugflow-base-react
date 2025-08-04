@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" // or "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  name             String
+  password         String
+  ownedProjects    Project[] @relation("UserOwnedProjects")
+  assignedIssues   Issue[]   @relation("UserAssignedIssues")
+  reportedIssues   Issue[]   @relation("UserReportedIssues")
+  comments         Comment[] @relation("UserComments")
+  @@map("users")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  ownerId     String
+  owner       User     @relation("UserOwnedProjects", fields: [ownerId], references: [id])
+  issues      Issue[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model Issue {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  projectId   String
+  project     Project    @relation(fields: [projectId], references: [id])
+  statusId    String
+  status      Status     @relation(fields: [statusId], references: [id])
+  priorityId  String
+  priority    Priority   @relation(fields: [priorityId], references: [id])
+  assigneeId  String
+  assignee    User       @relation("UserAssignedIssues", fields: [assigneeId], references: [id])
+  reporterId  String
+  reporter    User       @relation("UserReportedIssues", fields: [reporterId], references: [id])
+  comments    Comment[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("issues")
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  content    String
+  issueId    String
+  issue      Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  createdById String?
+  createdBy  User?    @relation("UserComments", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("comments")
+}
+
+model Status {
+  id   String @id @default(uuid())
+  name String @unique
+
+  issues Issue[]
+
+  @@map("statuses")
+}
+
+model Role {
+  id   String @id @default(uuid())
+  name String @unique
+
+  @@map("roles")
+}
+
+model Priority {
+  id    String  @id @default(uuid())
+  level String  @unique
+  issues Issue[]
+
+  @@map("priorities")
+}

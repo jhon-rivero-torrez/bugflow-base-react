@@ -2,6 +2,12 @@
   "name": "@bugflow/bugflow-api",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "seed": "ts-node src/seed/index.ts",
+    "migration:generate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate",
+    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run",
+    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert"
+  },
   "nx": {
     "targets": {
       "serve": {
@@ -30,5 +36,13 @@
         }
       }
     }
+  },
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "install": "^0.13.0",
+    "mysql2": "^3.14.2",
+    "prisma": "^6.12.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25"
   }
 }
